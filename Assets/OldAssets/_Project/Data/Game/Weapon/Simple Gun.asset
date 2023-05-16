@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81702eb455e941178ee915873e999b80, type: 3}
+  m_Name: Simple Gun
+  m_EditorClassIdentifier: 
+  _fireRateDelay: 0.3
+  _shootAudioEvent: {fileID: 11400000, guid: 047976e16f7636444af0f0bf1a1a3edd, type: 2}
