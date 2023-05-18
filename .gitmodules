@@ -1,0 +1,3 @@
+[submodule "Assets/sm-application"]
+	path = Assets/sm-application
+	url = https://github.com/BurovAlexProgrammer/sm-application.git
