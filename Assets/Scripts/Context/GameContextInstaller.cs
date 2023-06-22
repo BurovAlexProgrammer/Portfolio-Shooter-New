@@ -1,11 +1,13 @@
 using Events;
+using Service;
 using sm_application.Scripts.Main.Game;
 using sm_application.Scripts.Main.Service;
 using sm_application.Scripts.Main.Systems;
+using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace StartupGame
+namespace Context
 {
     public class GameContextInstaller : MonoBehaviour
     {
@@ -24,9 +26,11 @@ namespace StartupGame
             Services.Register<SceneLoaderService>();
             Services.Register<StatisticService>();
             Services.Register<GameStateService>();
-            
+            Services.Register<HttpService>();
+
             SystemsService.Bind<SceneLoaderSystem>();
             SystemsService.Bind<GameStateSystem>();
+            SystemsService.Bind<HttpSystem>();
             
             new StartupGameInitializedEvent().Fire();
         }

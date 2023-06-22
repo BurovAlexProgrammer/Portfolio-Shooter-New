@@ -1,11 +1,17 @@
-﻿using sm_application.Scripts.Main.DTO.Enums;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using DTO.Http;
+using Events;
+using JetBrains.Annotations;
+using sm_application.Scripts.Main.DTO.Enums;
 using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Service;
+using sm_application.Scripts.Main.Systems;
 using sm_application.Scripts.Main.Wrappers;
-using Cysharp.Threading.Tasks;
 
-namespace sm_application.Scripts.Main.Systems
+namespace Systems
 {
+    [UsedImplicitly]
     public class SceneLoaderSystem : BaseSystem
     {
         private SceneLoaderService _sceneLoader;
@@ -28,6 +34,7 @@ namespace sm_application.Scripts.Main.Systems
             RemoveListener<StartupSystemsInitializedEvent>();
             RemoveListener<ShowMainMenuEvent>();
             RemoveListener<RestartGameEvent>();
+            RemoveListener<StartupGameInitializedEvent>();
             base.RemoveEventHandlers();
         }
 
@@ -37,6 +44,19 @@ namespace sm_application.Scripts.Main.Systems
             AddListener<StartupSystemsInitializedEvent>(StartupSystemsInitialized);
             AddListener<ShowMainMenuEvent>(ShowMainMenu);
             AddListener<RestartGameEvent>(OnRestartGame);
+            AddListener<StartupGameInitializedEvent>(OnStartupGameInitialized);
+        }
+
+        private void OnStartupGameInitialized(BaseEvent obj)
+        {
+            //Services.Get<HttpService>().GetTimeNow();
+            // Services.Get<HttpService>().CreateUser();
+            var dic = new Dictionary<string, string>();
+            dic.Add("authKey", "testKey2");
+            dic.Add("nickname", "nickname2");
+
+            // new HttpRequestEvent(Endpoint.UserCreate, dic);
+            new HttpRequestEvent(Endpoint.ServerTime).Fire();
         }
 
         private void OnRestartGame(BaseEvent obj)

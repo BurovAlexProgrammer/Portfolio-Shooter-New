@@ -1,12 +1,15 @@
-﻿using sm_application.Scripts.Main.DTO.Enums;
+﻿using JetBrains.Annotations;
+using sm_application.Scripts.Main.DTO.Enums;
 using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Service;
+using sm_application.Scripts.Main.Systems;
 using sm_application.Scripts.Main.Wrappers;
 using smApplication.Scripts.Extension;
 using UnityEngine.InputSystem;
 
-namespace sm_application.Scripts.Main.Systems
+namespace Systems
 {
+    [UsedImplicitly]
     public class GameStateSystem : BaseSystem
     {
         private GameStateService _gameStateService;

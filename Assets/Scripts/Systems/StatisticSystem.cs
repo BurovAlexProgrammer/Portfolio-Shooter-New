@@ -1,8 +1,11 @@
-﻿using sm_application.Scripts.Main.Events;
+﻿using JetBrains.Annotations;
+using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Service;
+using sm_application.Scripts.Main.Systems;
 
-namespace sm_application.Scripts.Main.Systems
+namespace Systems
 {
+    [UsedImplicitly]
     public class StatisticSystem : BaseSystem
     {
         private StatisticService _statisticService;
