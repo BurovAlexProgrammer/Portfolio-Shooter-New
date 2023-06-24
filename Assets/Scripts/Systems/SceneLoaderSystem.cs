@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DTO.Http;
 using Events;
@@ -8,6 +9,7 @@ using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Service;
 using sm_application.Scripts.Main.Systems;
 using sm_application.Scripts.Main.Wrappers;
+using UnityEngine.Networking;
 
 namespace Systems
 {
@@ -50,13 +52,20 @@ namespace Systems
         private void OnStartupGameInitialized(BaseEvent obj)
         {
             //Services.Get<HttpService>().GetTimeNow();
-            // Services.Get<HttpService>().CreateUser();
+            //Services.Get<HttpService>().CreateUser();
             var dic = new Dictionary<string, string>();
             dic.Add("authKey", "testKey2");
             dic.Add("nickname", "nickname2");
 
             // new HttpRequestEvent(Endpoint.UserCreate, dic);
-            new HttpRequestEvent(Endpoint.ServerTime).Fire();
+            new HttpRequestEvent(Endpoint.ServerTime)
+                .OnSuccess(OnServerTimeResponse)
+                .Fire();
+        }
+
+        private void OnServerTimeResponse(DownloadHandler downloadHandler)
+        {
+            Log.Warn(downloadHandler.text.ToString());
         }
 
         private void OnRestartGame(BaseEvent obj)

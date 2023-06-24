@@ -4,13 +4,12 @@ using Cysharp.Threading.Tasks;
 using DTO.Http;
 using Duck.Http;
 using Duck.Http.Service.Unity;
-using Events;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using sm_application.Scripts.Main.Events;
+using sm_application.Scripts.Main.HttpData;
 using sm_application.Scripts.Main.Service;
 using sm_application.Scripts.Main.Wrappers;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Service
@@ -62,30 +61,58 @@ namespace Service
             }
 
             var operation = request.SendWebRequest();
-            operation.completed += OnRequestReturned;
+            ExecuteAsync(operation, httpRequestEvent);
         }
 
-        private void OnRequestReturned(AsyncOperation operation)
+        private async UniTask ExecuteAsync(UnityWebRequestAsyncOperation operation, HttpRequestEvent httpRequestEvent)
         {
-            var webOperation = operation as UnityWebRequestAsyncOperation;
-            switch (webOperation.webRequest.result)
+            var currentResult = operation.webRequest.result;
+            var currentProgress = 0f;
+            var webRequest = operation.webRequest;
+            // Log.Warn(Enum.GetName(typeof(UnityWebRequest.Result), currentResult));
+
+            while (!operation.isDone)
+            {
+                if (currentResult != webRequest.result)
+                {
+                    currentResult = webRequest.result;
+                    // Log.Warn(Enum.GetName(typeof(UnityWebRequest.Result), currentResult));
+                }
+
+                if (currentProgress < operation.progress)
+                {
+                    currentProgress = operation.progress;
+                    httpRequestEvent.OnProgressChangedAction?.Invoke(currentProgress);
+                }
+                
+                await UniTask.NextFrame();
+            }
+
+            httpRequestEvent.OnResponseAction?.Invoke(webRequest.downloadHandler);
+            
+            switch (webRequest.result)
             {
                 case UnityWebRequest.Result.InProgress:
                     Log.ErrorUnknown();
                     break;
                 case UnityWebRequest.Result.Success:
-                    //TODO use DUCK
+                    httpRequestEvent.OnSuccessAction?.Invoke(webRequest.downloadHandler);
                     break;
                 case UnityWebRequest.Result.ConnectionError:
-                    break;
                 case UnityWebRequest.Result.ProtocolError:
-                    break;
                 case UnityWebRequest.Result.DataProcessingError:
+                    HttpErrorLog(httpRequestEvent, webRequest);
+                    httpRequestEvent.OnErrorAction?.Invoke(httpRequestEvent, webRequest);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Debug.LogWarning("Done");
+        }
+
+        private void HttpErrorLog(HttpRequestEvent httpRequestEvent, UnityWebRequest webRequest)
+        {
+            Log.Error($"Error on HttpRequestEvent:\"{httpRequestEvent.Endpoint}\" {Environment.NewLine}" +
+                      $"Error message: {webRequest.error}");
         }
     }
 }
