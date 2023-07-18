@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using static sm_application.Scripts.Main.DTO.StatisticData.RecordName;
+using static Game.DTO.StatisticData.RecordName;
 
-namespace sm_application.Scripts.Main.DTO
+namespace Game.DTO
 {
     [Serializable]
     public class StatisticData

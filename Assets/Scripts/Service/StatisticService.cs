@@ -2,7 +2,7 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
-using sm_application.Scripts.Main.DTO;
+using Game.DTO;
 using UnityEngine;
 
 namespace sm_application.Scripts.Main.Service

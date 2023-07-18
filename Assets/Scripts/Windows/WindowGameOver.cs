@@ -8,8 +8,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static smApplication.Scripts.Extension.Common;
-using static sm_application.Scripts.Main.DTO.StatisticData.FormatType;
-using static sm_application.Scripts.Main.DTO.StatisticData.RecordName;
+using static Game.DTO.StatisticData.FormatType;
+using static Game.DTO.StatisticData.RecordName;
 
 namespace sm_application.Scripts.Main.UI.Window
 {

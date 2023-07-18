@@ -1,4 +1,4 @@
-﻿namespace sm_application.Scripts.Main.DTO.Enums
+﻿namespace Game.DTO.Enums
 {
     public enum GameState
     {

@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using DTO.Http;
 using Events;
 using JetBrains.Annotations;
-using sm_application.Scripts.Main.DTO.Enums;
+using Game.DTO.Enums;
 using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Service;
 using sm_application.Scripts.Main.Systems;
@@ -18,12 +18,14 @@ namespace Systems
     {
         private SceneLoaderService _sceneLoader;
         private GameStateService _gameStateService;
+        private HardwareService _hardwareService;
 
         public override void Init()
         {
             base.Init();
             _sceneLoader = Services.Get<SceneLoaderService>();
             _gameStateService = Services.Get<GameStateService>();
+            _hardwareService = Services.Get<HardwareService>();
             
             if (_sceneLoader.IsCustomScene())
             {
@@ -58,14 +60,17 @@ namespace Systems
             dic.Add("nickname", "nickname2");
 
             // new HttpRequestEvent(Endpoint.UserCreate, dic);
-            new HttpRequestEvent(Endpoint.ServerTime)
-                .OnSuccess(OnServerTimeResponse)
-                .Fire();
-        }
-
-        private void OnServerTimeResponse(DownloadHandler downloadHandler)
-        {
-            Log.Warn(downloadHandler.text.ToString());
+            // new HttpRequestEvent(Endpoint.ServerTime)
+            //     .OnSuccess(OnServerTimeSuccess)
+            //     .OnResponse(OnServerTimeResponse)
+            //     //.OnError(OnTimeRequestError)
+            //     .OnTimeOut(Action)
+            //     .Fire();
+            
+            new CheckUserExistRequiredEvent()
+            {
+                UniqueDeviceId = _hardwareService.UniqueDeviceId
+            }.Fire();
         }
 
         private void OnRestartGame(BaseEvent obj)

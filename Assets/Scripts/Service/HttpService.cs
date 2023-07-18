@@ -10,6 +10,7 @@ using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.HttpData;
 using sm_application.Scripts.Main.Service;
 using sm_application.Scripts.Main.Wrappers;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Service
@@ -17,8 +18,13 @@ namespace Service
     [UsedImplicitly]
     public class HttpService : IService, IConstruct
     {
-        private string _defaultServer = "http://localhost:8000";
+        public event Action<bool> ServerStatusChanged;
         
+        private const string DefaultServer = "http://localhost:8000";
+        private bool _isOnline;
+        private const float Timeout = 1f;
+        private List<HttpRequestEvent> _executingRequests = new List<HttpRequestEvent>(5);
+
         public void Construct()
         {
             Http.Init(new UnityHttpService());
@@ -26,7 +32,7 @@ namespace Service
 
         public void GetTimeNow()
         {
-            Http.Get(string.Concat(_defaultServer, "/api/user/now")).Send();
+            Http.Get(string.Concat(DefaultServer, "/api/user/now")).Send();
         }
 
         public void CreateUser()
@@ -34,7 +40,7 @@ namespace Service
             var dic = new Dictionary<string, string>();
             dic.Add("authKey", "testKey2");
             dic.Add("nickname", "nickname2");
-            var req = UnityWebRequest.Post(string.Concat(_defaultServer, Endpoint.UserCreate), dic);
+            var req = UnityWebRequest.Post(string.Concat(DefaultServer, Endpoint.UserCreate), dic);
             req.Send();
         }
 
@@ -42,7 +48,7 @@ namespace Service
         {
             UnityWebRequest request = null;
             
-            var uri = string.Concat(_defaultServer, httpRequestEvent.Endpoint);
+            var uri = string.Concat(DefaultServer, httpRequestEvent.Endpoint);
             
             switch (httpRequestEvent.HttpMethod)
             {
@@ -69,8 +75,11 @@ namespace Service
             var currentResult = operation.webRequest.result;
             var currentProgress = 0f;
             var webRequest = operation.webRequest;
+            var timer = Timeout;
             // Log.Warn(Enum.GetName(typeof(UnityWebRequest.Result), currentResult));
 
+            _executingRequests.Add(httpRequestEvent);
+            
             while (!operation.isDone)
             {
                 if (currentResult != webRequest.result)
@@ -82,13 +91,21 @@ namespace Service
                 if (currentProgress < operation.progress)
                 {
                     currentProgress = operation.progress;
-                    httpRequestEvent.OnProgressChangedAction?.Invoke(currentProgress);
+                    httpRequestEvent.ProgressChanged?.Invoke(currentProgress);
                 }
                 
                 await UniTask.NextFrame();
+                timer -= Time.deltaTime;
+
+                if (timer <= 0f)
+                {
+                    HttpErrorTimeoutLog(httpRequestEvent);
+                    httpRequestEvent.Timeout?.Invoke(httpRequestEvent);
+                    return;
+                }
             }
 
-            httpRequestEvent.OnResponseAction?.Invoke(webRequest.downloadHandler);
+            httpRequestEvent.Response?.Invoke(webRequest.downloadHandler);
             
             switch (webRequest.result)
             {
@@ -96,23 +113,42 @@ namespace Service
                     Log.ErrorUnknown();
                     break;
                 case UnityWebRequest.Result.Success:
-                    httpRequestEvent.OnSuccessAction?.Invoke(webRequest.downloadHandler);
+                    httpRequestEvent.Success?.Invoke(webRequest.downloadHandler);
+                    SetServerStatus(true);
                     break;
                 case UnityWebRequest.Result.ConnectionError:
+                    HttpErrorLog(httpRequestEvent, webRequest);
+                    httpRequestEvent.Error?.Invoke(httpRequestEvent, webRequest);
+                    SetServerStatus(false);
+                    break;
                 case UnityWebRequest.Result.ProtocolError:
                 case UnityWebRequest.Result.DataProcessingError:
                     HttpErrorLog(httpRequestEvent, webRequest);
-                    httpRequestEvent.OnErrorAction?.Invoke(httpRequestEvent, webRequest);
+                    httpRequestEvent.Error?.Invoke(httpRequestEvent, webRequest);
+                    SetServerStatus(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            _executingRequests.Remove(httpRequestEvent);
         }
 
         private void HttpErrorLog(HttpRequestEvent httpRequestEvent, UnityWebRequest webRequest)
         {
             Log.Error($"Error on HttpRequestEvent:\"{httpRequestEvent.Endpoint}\" {Environment.NewLine}" +
                       $"Error message: {webRequest.error}");
+        }
+        
+        private void HttpErrorTimeoutLog(HttpRequestEvent httpRequestEvent)
+        {
+            Log.Error($"Timeout on HttpRequestEvent:\"{httpRequestEvent.Endpoint}\"");
+        }
+
+
+        private void SetServerStatus(bool status)
+        {
+            ServerStatusChanged?.Invoke(status);
         }
     }
 }

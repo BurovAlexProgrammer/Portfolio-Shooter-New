@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using static smApplication.Scripts.Extension.Common;
-using static sm_application.Scripts.Main.DTO.StatisticData;
+using static Game.DTO.StatisticData;
 
 namespace sm_application.Scripts.Main.Menu
 {

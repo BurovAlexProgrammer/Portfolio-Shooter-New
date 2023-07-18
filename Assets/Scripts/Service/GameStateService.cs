@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using sm_application.Scripts.Main.DTO.Enums;
+using Game.DTO.Enums;
 using sm_application.Scripts.Main.Events;
 using sm_application.Scripts.Main.Wrappers;
 using UnityEditor;

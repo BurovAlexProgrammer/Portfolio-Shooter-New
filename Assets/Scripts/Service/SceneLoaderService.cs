@@ -1,6 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
-using sm_application.Scripts.Main.DTO.Enums;
+using Game.DTO.Enums;
 using smApplication.Scripts.Extension;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;

@@ -7,7 +7,7 @@ using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Context
+namespace Game.Context
 {
     public class GameContextInstaller : MonoBehaviour
     {
@@ -31,6 +31,7 @@ namespace Context
             SystemsService.Bind<SceneLoaderSystem>();
             SystemsService.Bind<GameStateSystem>();
             SystemsService.Bind<HttpSystem>();
+            SystemsService.Bind<UserSystem>();
             
             new StartupGameInitializedEvent().Fire();
         }
