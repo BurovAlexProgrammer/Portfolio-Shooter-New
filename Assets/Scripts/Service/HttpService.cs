@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using DTO.Http;
 using Duck.Http;
 using Duck.Http.Service.Unity;
+using Events;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using sm_application.Scripts.Main.Events;
@@ -19,11 +20,12 @@ namespace Service
     public class HttpService : IService, IConstruct
     {
         public event Action<bool> ServerStatusChanged;
-        
-        private const string DefaultServer = "http://localhost:8000";
+
         private bool _isOnline;
-        private const float Timeout = 1f;
         private List<HttpRequestEvent> _executingRequests = new List<HttpRequestEvent>(5);
+
+        private const string DefaultServer = "http://localhost:8000";
+        private const float Timeout = 1f;
 
         public void Construct()
         {
@@ -47,9 +49,9 @@ namespace Service
         public async void ExecuteRequest(HttpRequestEvent httpRequestEvent)
         {
             UnityWebRequest request = null;
-            
+
             var uri = string.Concat(DefaultServer, httpRequestEvent.Endpoint);
-            
+
             switch (httpRequestEvent.HttpMethod)
             {
                 case HttpRequestMethod.Get:
@@ -79,7 +81,7 @@ namespace Service
             // Log.Warn(Enum.GetName(typeof(UnityWebRequest.Result), currentResult));
 
             _executingRequests.Add(httpRequestEvent);
-            
+
             while (!operation.isDone)
             {
                 if (currentResult != webRequest.result)
@@ -93,7 +95,7 @@ namespace Service
                     currentProgress = operation.progress;
                     httpRequestEvent.ProgressChanged?.Invoke(currentProgress);
                 }
-                
+
                 await UniTask.NextFrame();
                 timer -= Time.deltaTime;
 
@@ -106,7 +108,7 @@ namespace Service
             }
 
             httpRequestEvent.Response?.Invoke(webRequest.downloadHandler);
-            
+
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.InProgress:
@@ -130,7 +132,7 @@ namespace Service
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             _executingRequests.Remove(httpRequestEvent);
         }
 
@@ -139,16 +141,21 @@ namespace Service
             Log.Error($"Error on HttpRequestEvent:\"{httpRequestEvent.Endpoint}\" {Environment.NewLine}" +
                       $"Error message: {webRequest.error}");
         }
-        
+
         private void HttpErrorTimeoutLog(HttpRequestEvent httpRequestEvent)
         {
             Log.Error($"Timeout on HttpRequestEvent:\"{httpRequestEvent.Endpoint}\"");
         }
 
 
-        private void SetServerStatus(bool status)
+        private void SetServerStatus(bool isOnline)
         {
-            ServerStatusChanged?.Invoke(status);
+            if (_isOnline != isOnline)
+            {
+                new ServerStatusChangedEvent(isOnline).Fire();
+            }
+
+            _isOnline = isOnline;
         }
     }
 }

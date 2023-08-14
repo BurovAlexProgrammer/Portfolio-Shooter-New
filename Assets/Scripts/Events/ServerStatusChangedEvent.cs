@@ -1,0 +1,14 @@
+using sm_application.Scripts.Main.Events;
+
+namespace Events
+{
+    public class ServerStatusChangedEvent : BaseEvent
+    {
+        public readonly bool IsOnline;
+
+        public ServerStatusChangedEvent(bool isOnline)
+        {
+            IsOnline = isOnline;
+        }
+    }
+}

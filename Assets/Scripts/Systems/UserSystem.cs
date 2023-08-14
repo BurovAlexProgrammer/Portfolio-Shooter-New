@@ -5,7 +5,9 @@ using Events.HttpResponseEvents;
 using Game.DTO;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Service;
 using sm_application.Scripts.Main.Events;
+using sm_application.Scripts.Main.Service;
 using UnityEngine.Networking;
 
 namespace sm_application.Scripts.Main.Systems
@@ -13,6 +15,14 @@ namespace sm_application.Scripts.Main.Systems
     [UsedImplicitly]
     public class UserSystem : BaseSystem
     {
+        private UserService _userService;
+        
+        public override void Init()
+        {
+            base.Init();
+            _userService = Services.Get<UserService>();
+        }
+
         public override void AddEventHandlers()
         {
             base.AddEventHandlers();
@@ -39,7 +49,7 @@ namespace sm_application.Scripts.Main.Systems
         {
             var userData = JsonConvert.DeserializeObject<UserData>(downloadHandler.text);
             
-            if (userData != null)
+            if (userData != default)
             {
                 new ExistUserConnectedEvent().Fire();
             }
