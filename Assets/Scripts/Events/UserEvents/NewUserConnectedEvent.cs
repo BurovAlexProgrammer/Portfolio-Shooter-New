@@ -1,4 +1,4 @@
-using sm_application.Scripts.Main.Events;
+using sm_application.Events;
 
 namespace Events
 {

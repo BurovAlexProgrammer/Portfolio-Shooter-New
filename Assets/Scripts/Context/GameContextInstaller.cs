@@ -1,8 +1,7 @@
 using Events;
-using Service;
-using sm_application.Scripts.Main.Game;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Systems;
+using sm_application.Game;
+using sm_application.Service;
+using sm_application.Systems;
 using Systems;
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -2,7 +2,7 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
 
-namespace sm_application.Scripts.Main.Game.GameStates
+namespace sm_application.Game.GameStates
 {
     public abstract class GameStateBase
     {

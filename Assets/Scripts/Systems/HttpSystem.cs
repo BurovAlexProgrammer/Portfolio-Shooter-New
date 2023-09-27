@@ -1,8 +1,7 @@
 using JetBrains.Annotations;
-using Service;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Systems;
+using sm_application.Events;
+using sm_application.Service;
+using sm_application.Systems;
 
 namespace Systems
 {

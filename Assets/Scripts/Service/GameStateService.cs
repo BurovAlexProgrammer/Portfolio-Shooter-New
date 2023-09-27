@@ -3,12 +3,15 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.DTO.Enums;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Wrappers;
-using UnityEditor;
+using sm_application.Events;
+using sm_application.Extension;
+using sm_application.Wrappers;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-namespace sm_application.Scripts.Main.Service
+namespace sm_application.Service
 {
     public class GameStateService : IService
     {
@@ -39,13 +42,7 @@ namespace sm_application.Scripts.Main.Service
             }
             
             _currentState = newState;
-            
-#if UNITY_EDITOR
-            var color = EditorGUIUtility.isProSkin ? "#39A5E6" : "#004F99";
-#else
-            var color = "default";
-#endif
-
+            var color = Common.ThemeColorHex("#39A5E6", "#004F99");
             Log.Info($"GameState: <color={color}> {newState.ToString()}</color>. {DateTime.Now.ToString("hh:mm:ss")}");
         }
         

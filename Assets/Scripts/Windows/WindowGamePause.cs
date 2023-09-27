@@ -1,14 +1,13 @@
-using smApplication.Scripts.Extension;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
-using smApplication.Scripts.UI;
 using Cysharp.Threading.Tasks;
-using sm_application.Scripts.Main.Service;
+using sm_application.Events;
+using sm_application.Extension;
+using sm_application.Service;
+using sm_application.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace sm_application.Scripts.Main.UI.Window
+namespace sm_application.UI.Window
 {
     public class WindowGamePause : WindowView
     {

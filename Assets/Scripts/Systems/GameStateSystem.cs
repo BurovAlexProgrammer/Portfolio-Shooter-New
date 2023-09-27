@@ -1,10 +1,10 @@
 ﻿using JetBrains.Annotations;
 using Game.DTO.Enums;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Systems;
-using sm_application.Scripts.Main.Wrappers;
-using smApplication.Scripts.Extension;
+using sm_application.Events;
+using sm_application.Service;
+using sm_application.Systems;
+using sm_application.Wrappers;
+using sm_application.Extension;
 using UnityEngine.InputSystem;
 
 namespace Systems

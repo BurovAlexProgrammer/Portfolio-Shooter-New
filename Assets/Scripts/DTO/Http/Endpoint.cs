@@ -1,5 +1,5 @@
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.HttpData;
+using sm_application.Events;
+using sm_application.HttpData;
 
 namespace DTO.Http
 {

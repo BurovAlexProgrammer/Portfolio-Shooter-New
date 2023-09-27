@@ -1,8 +1,7 @@
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Service;
+using sm_application.Service;
 using UnityEngine;
 
-namespace sm_application.Scripts.Main.Menu
+namespace sm_application.Menu
 {
     public class MenuSettingsController : MonoBehaviour
     {

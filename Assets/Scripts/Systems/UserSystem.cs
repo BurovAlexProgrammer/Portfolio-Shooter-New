@@ -5,12 +5,11 @@ using Events.HttpResponseEvents;
 using Game.DTO;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using Service;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
+using sm_application.Events;
+using sm_application.Service;
 using UnityEngine.Networking;
 
-namespace sm_application.Scripts.Main.Systems
+namespace sm_application.Systems
 {
     [UsedImplicitly]
     public class UserSystem : BaseSystem

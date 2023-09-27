@@ -3,7 +3,7 @@
     public enum SceneName
     {
         Boot,
-        Startup,
+        Intro,
         MainMenu
     }
 }

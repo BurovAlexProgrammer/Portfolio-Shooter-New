@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Game.DTO;
 using UnityEngine;
 
-namespace sm_application.Scripts.Main.Service
+namespace sm_application.Service
 {
     public class StatisticService : IService, IConstruct, IDisposable
     {

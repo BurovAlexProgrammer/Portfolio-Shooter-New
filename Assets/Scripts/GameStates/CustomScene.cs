@@ -1,8 +1,7 @@
-﻿using sm_application.Scripts.Main.Service;
-using Cysharp.Threading.Tasks;
-using sm_application.Scripts.Main.Service;
+﻿using Cysharp.Threading.Tasks;
+using sm_application.Service;
 
-namespace sm_application.Scripts.Main.Game.GameStates
+namespace sm_application.Game.GameStates
 {
     public static partial class GameState
     {

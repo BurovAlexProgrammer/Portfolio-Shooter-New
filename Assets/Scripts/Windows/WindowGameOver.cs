@@ -1,17 +1,17 @@
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
-using smApplication.Scripts.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using sm_application.Scripts.Main.Service;
+using sm_application.Events;
+using sm_application.Service;
+using sm_application.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static smApplication.Scripts.Extension.Common;
+using static sm_application.Extension.Common;
 using static Game.DTO.StatisticData.FormatType;
 using static Game.DTO.StatisticData.RecordName;
+using Common = sm_application.Extension.Common;
 
-namespace sm_application.Scripts.Main.UI.Window
+namespace sm_application.UI.Window
 {
     public class WindowGameOver : WindowView
     {
@@ -61,7 +61,7 @@ namespace sm_application.Scripts.Main.UI.Window
             await base.Show();
             
             await DOVirtual
-                .Int(0, surviveTime, duration, x => _surviveTimeText.text = x.Format(StringFormat.Time))
+                .Int(0, surviveTime, duration, x => _surviveTimeText.text = x.Format(Common.StringFormat.Time))
                 .AsyncWaitForCompletion();
             
             await DOVirtual

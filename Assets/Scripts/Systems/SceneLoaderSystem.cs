@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DTO.Http;
 using Events;
-using JetBrains.Annotations;
 using Game.DTO.Enums;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Systems;
-using sm_application.Scripts.Main.Wrappers;
-using UnityEngine.Networking;
+using JetBrains.Annotations;
+using sm_application.Events;
+using sm_application.Service;
+using sm_application.Systems;
+using sm_application.Wrappers;
 
 namespace Systems
 {
@@ -86,11 +83,11 @@ namespace Systems
         private void StartupSystemsInitialized(BaseEvent evnt)
         {
             Log.Info("Initialized");
-            // if (_gameStateService.CurrentStateIs(GameState.CustomScene))
-            // {
-            //     return;
-            // }
-            // _sceneLoader.LoadSceneAsync(SceneName.Intro).Forget();
+            if (_gameStateService.CurrentStateIs(GameState.CustomScene))
+            {
+                return;
+            }
+            _sceneLoader.LoadSceneAsync(SceneName.Intro).Forget();
         }
     }
 }

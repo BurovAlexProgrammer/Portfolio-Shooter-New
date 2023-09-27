@@ -1,7 +1,7 @@
-using sm_application.Scripts.Main.Events;
 using Cysharp.Threading.Tasks;
+using sm_application.Events;
 
-namespace sm_application.Scripts.Main.Menu
+namespace sm_application.Menu
 {
     public class MainMenuController : MenuController
     {

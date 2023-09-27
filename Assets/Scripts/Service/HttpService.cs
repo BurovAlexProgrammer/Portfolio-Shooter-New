@@ -7,14 +7,13 @@ using Duck.Http.Service.Unity;
 using Events;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using sm_application.Scripts.Main.Events;
-using sm_application.Scripts.Main.HttpData;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.Wrappers;
+using sm_application.Events;
+using sm_application.HttpData;
+using sm_application.Wrappers;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Service
+namespace sm_application.Service
 {
     [UsedImplicitly]
     public class HttpService : IService, IConstruct

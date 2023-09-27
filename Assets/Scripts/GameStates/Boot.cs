@@ -1,7 +1,7 @@
-﻿using smApplication.Scripts.Extension;
+﻿using sm_application.Extension;
 using Cysharp.Threading.Tasks;
 
-namespace sm_application.Scripts.Main.Game.GameStates
+namespace sm_application.Game.GameStates
 {
     public static partial class GameState
     {

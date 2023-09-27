@@ -1,13 +1,13 @@
 using System;
 using Cysharp.Threading.Tasks;
-using sm_application.Scripts.Main.Localizations;
-using sm_application.Scripts.Main.Service;
-using sm_application.Scripts.Main.UI;
+using sm_application.Localizations;
+using sm_application.Service;
+using sm_application.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sm_application.Scripts.Main.Menu
+namespace sm_application.Menu
 {
     public class MenuSettingsView : MenuView
     {

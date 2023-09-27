@@ -1,7 +1,7 @@
 using Game.DTO;
-using sm_application.Scripts.Main.Service;
+using sm_application.Service;
 
-namespace Service
+namespace sm_application.Service
 {
     public class UserService: IService
     {

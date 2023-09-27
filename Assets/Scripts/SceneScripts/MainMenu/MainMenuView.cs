@@ -1,9 +1,9 @@
-using sm_application.Scripts.Main.Menu;
+using sm_application.Menu;
 using UnityEngine;
 using UnityEngine.UI;
-using static sm_application.Scripts.Main.Menu.MenuController;
+using static sm_application.Menu.MenuController;
 
-namespace sm_application.Scripts.Main.SceneScripts.MainMenu
+namespace sm_application.SceneScripts.MainMenu
 {
     public class MainMenuView : MonoBehaviour
     {
@@ -19,14 +19,14 @@ namespace sm_application.Scripts.Main.SceneScripts.MainMenu
 
         void Start()
         {
-            _settingsButton.onClick.AddListener(() => _menuController.SetState(MenuStates.Settings));
-            _backFromSettings.onClick.AddListener(() => _menuController.SetState(MenuStates.MainMenu));
-            _buttonQuit.onClick.AddListener(() => _menuController.SetState(MenuStates.QuitGame));
-            _buttonQuitNo.onClick.AddListener(() => _menuController.SetState(MenuStates.MainMenu));
+            _settingsButton.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.Settings));
+            _backFromSettings.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.MainMenu));
+            _buttonQuit.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.QuitGame));
+            _buttonQuitNo.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.MainMenu));
             _buttonQuitYes.onClick.AddListener(_menuController.QuitGame);
             _buttonNewGame.onClick.AddListener(_menuController.StartNewGame);
-            _buttonStatistic.onClick.AddListener(() => _menuController.SetState(MenuStates.Statistic));
-            _buttonAbout.onClick.AddListener(() => _menuController.SetState(MenuStates.About));
+            _buttonStatistic.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.Statistic));
+            _buttonAbout.onClick.AddListener(() => _menuController.SetState(MenuController.MenuStates.About));
         }
 
         private void OnDestroy()

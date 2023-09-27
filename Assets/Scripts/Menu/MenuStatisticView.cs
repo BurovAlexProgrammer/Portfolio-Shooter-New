@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using sm_application.Scripts.Main.UI;
 using Cysharp.Threading.Tasks;
+using sm_application.Extension;
+using sm_application.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using static smApplication.Scripts.Extension.Common;
+using static sm_application.Extension.Common;
 using static Game.DTO.StatisticData;
 
-namespace sm_application.Scripts.Main.Menu
+namespace sm_application.Menu
 {
     public class MenuStatisticView : MenuView
     {
@@ -35,11 +36,11 @@ namespace sm_application.Scripts.Main.Menu
                 {
                     case RecordName.AverageGameSessionDuration:
                         // intValue = Mathf.RoundToInt(StatisticService.GetFloatValue(recordName));
-                        _textFields[i].ValueText.text = intValue.Format(StringFormat.Time);
+                        _textFields[i].ValueText.text = intValue.Format(Common.StringFormat.Time);
                         break;
                     case RecordName.LongestGameSessionDuration:
                         // intValue = Mathf.RoundToInt(StatisticService.GetFloatValue(recordName));
-                        _textFields[i].ValueText.text = intValue.Format(StringFormat.Time);
+                        _textFields[i].ValueText.text = intValue.Format(Common.StringFormat.Time);
                         break;
                     default:
                         // var stringValue = StatisticService.GetRecord(recordName);
