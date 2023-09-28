@@ -1,5 +1,5 @@
 ﻿using JetBrains.Annotations;
-using Game.DTO.Enums;
+using Game.DTO.Constants;
 using sm_application.Events;
 using sm_application.Service;
 using sm_application.Systems;

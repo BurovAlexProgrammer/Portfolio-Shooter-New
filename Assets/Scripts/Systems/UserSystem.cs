@@ -7,9 +7,10 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using sm_application.Events;
 using sm_application.Service;
+using sm_application.Systems;
 using UnityEngine.Networking;
 
-namespace sm_application.Systems
+namespace Systems
 {
     [UsedImplicitly]
     public class UserSystem : BaseSystem

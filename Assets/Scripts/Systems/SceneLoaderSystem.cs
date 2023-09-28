@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Events;
-using Game.DTO.Enums;
+using Game.DTO.Constants;
 using JetBrains.Annotations;
 using sm_application.Events;
 using sm_application.Service;
@@ -35,7 +35,7 @@ namespace Systems
             RemoveListener<StartupSystemsInitializedEvent>();
             RemoveListener<ShowMainMenuEvent>();
             RemoveListener<RestartGameEvent>();
-            RemoveListener<StartupGameInitializedEvent>();
+            RemoveListener<GameStartupInitializedEvent>();
             base.RemoveEventHandlers();
         }
 
@@ -45,7 +45,7 @@ namespace Systems
             AddListener<StartupSystemsInitializedEvent>(StartupSystemsInitialized);
             AddListener<ShowMainMenuEvent>(ShowMainMenu);
             AddListener<RestartGameEvent>(OnRestartGame);
-            AddListener<StartupGameInitializedEvent>(OnStartupGameInitialized);
+            AddListener<GameStartupInitializedEvent>(OnStartupGameInitialized);
         }
 
         private void OnStartupGameInitialized(BaseEvent obj)
