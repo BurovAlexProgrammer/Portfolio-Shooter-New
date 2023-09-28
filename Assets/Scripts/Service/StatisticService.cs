@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace sm_application.Service
 {
-    public class StatisticService : IService, IConstruct, IDisposable
+    public class StatisticService : IService, IDisposable
     {
         public Action<StatisticData.RecordName, string> RecordChanged; 
         

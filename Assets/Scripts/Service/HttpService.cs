@@ -16,7 +16,7 @@ using UnityEngine.Networking;
 namespace sm_application.Service
 {
     [UsedImplicitly]
-    public class HttpService : IService, IConstruct
+    public class HttpService : IService
     {
         public event Action<bool> ServerStatusChanged;
 

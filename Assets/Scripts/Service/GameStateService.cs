@@ -115,5 +115,9 @@ namespace sm_application.Service
             Time.timeScale = value;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
         }
+
+        public void Construct()
+        {
+        }
     }
 }
