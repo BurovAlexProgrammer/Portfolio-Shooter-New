@@ -32,23 +32,23 @@ namespace Systems
         
         public override void RemoveEventHandlers()
         {
-            RemoveListener<StartupSystemsInitializedEvent>();
+            RemoveListener<BootAppInitializedEvent>();
             RemoveListener<ShowMainMenuEvent>();
             RemoveListener<RestartGameEvent>();
-            RemoveListener<GameStartupInitializedEvent>();
+            RemoveListener<GameContextInitializedEvent>();
             base.RemoveEventHandlers();
         }
 
         public override void AddEventHandlers()
         {
             base.AddEventHandlers();
-            AddListener<StartupSystemsInitializedEvent>(StartupSystemsInitialized);
+            AddListener<BootAppInitializedEvent>(StartupSystemsInitialized);
             AddListener<ShowMainMenuEvent>(ShowMainMenu);
             AddListener<RestartGameEvent>(OnRestartGame);
-            AddListener<GameStartupInitializedEvent>(OnStartupGameInitialized);
+            AddListener<GameContextInitializedEvent>(OnGameBootInitialized);
         }
 
-        private void OnStartupGameInitialized(BaseEvent obj)
+        private void OnGameBootInitialized(BaseEvent obj)
         {
             //Services.Get<HttpService>().GetTimeNow();
             //Services.Get<HttpService>().CreateUser();

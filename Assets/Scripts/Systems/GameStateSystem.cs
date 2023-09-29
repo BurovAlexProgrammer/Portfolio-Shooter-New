@@ -36,7 +36,7 @@ namespace Systems
         {
             base.RemoveEventHandlers();
             RemoveListener<GameOverEvent>();
-            RemoveListener<StartupSystemsInitializedEvent>();
+            RemoveListener<BootAppInitializedEvent>();
             RemoveListener<IntroEndEvent>();
             RemoveListener<RestartGameEvent>();
             RemoveListener<ShowMainMenuEvent>();
@@ -48,7 +48,7 @@ namespace Systems
         {
             base.AddEventHandlers();
             AddListener<GameOverEvent>(OnGameOver);
-            AddListener<StartupSystemsInitializedEvent>(StartupSystemsInitialized);
+            AddListener<BootAppInitializedEvent>(StartupSystemsInitialized);
             AddListener<IntroEndEvent>(IntroEnded);
             AddListener<RestartGameEvent>(OnGameRestart);
             AddListener<ShowMainMenuEvent>(GoToMainMenu);
