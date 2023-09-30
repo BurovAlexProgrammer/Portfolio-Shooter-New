@@ -38,7 +38,7 @@ namespace Systems
             RemoveListener<GameOverEvent>();
             RemoveListener<BootAppInitializedEvent>();
             RemoveListener<IntroEndEvent>();
-            RemoveListener<RestartGameEvent>();
+            RemoveListener<ReloadSceneEvent>();
             RemoveListener<ShowMainMenuEvent>();
             RemoveListener<GoToMainMenuEvent>();
             RemoveListener<QuitGameEvent>();
@@ -50,7 +50,7 @@ namespace Systems
             AddListener<GameOverEvent>(OnGameOver);
             AddListener<BootAppInitializedEvent>(StartupSystemsInitialized);
             AddListener<IntroEndEvent>(IntroEnded);
-            AddListener<RestartGameEvent>(OnGameRestart);
+            AddListener<ReloadSceneEvent>(OnGameRestart);
             AddListener<ShowMainMenuEvent>(GoToMainMenu);
             AddListener<GoToMainMenuEvent>(GoToMainMenu);
             AddListener<QuitGameEvent>(OnQuitGame);

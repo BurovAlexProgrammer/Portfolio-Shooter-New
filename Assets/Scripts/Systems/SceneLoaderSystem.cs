@@ -16,6 +16,7 @@ namespace Systems
         private SceneLoaderService _sceneLoader;
         private GameStateService _gameStateService;
         private HardwareService _hardwareService;
+        private ScreenService _screenService;
 
         public override void Init()
         {
@@ -23,19 +24,16 @@ namespace Systems
             _sceneLoader = Services.Get<SceneLoaderService>();
             _gameStateService = Services.Get<GameStateService>();
             _hardwareService = Services.Get<HardwareService>();
-            
-            if (_sceneLoader.IsCustomScene())
-            {
-                _gameStateService.SetState(GameState.CustomScene);
-            }
+            _screenService = Services.Get<ScreenService>();
         }
-        
+
         public override void RemoveEventHandlers()
         {
             RemoveListener<BootAppInitializedEvent>();
             RemoveListener<ShowMainMenuEvent>();
-            RemoveListener<RestartGameEvent>();
+            RemoveListener<ReloadSceneEvent>();
             RemoveListener<GameContextInitializedEvent>();
+            RemoveListener<RequireLoadSceneEvent>();
             base.RemoveEventHandlers();
         }
 
@@ -44,11 +42,49 @@ namespace Systems
             base.AddEventHandlers();
             AddListener<BootAppInitializedEvent>(StartupSystemsInitialized);
             AddListener<ShowMainMenuEvent>(ShowMainMenu);
-            AddListener<RestartGameEvent>(OnRestartGame);
-            AddListener<GameContextInitializedEvent>(OnGameBootInitialized);
+            AddListener<ReloadSceneEvent>(ReloadScene);
+            AddListener<GameContextInitializedEvent>(GameBootInitialized);
+            AddListener<RequireLoadSceneEvent>(RequireLoadScene);
         }
 
-        private void OnGameBootInitialized(BaseEvent obj)
+        private void LoadScene(string sceneName, bool isForce)
+        {
+            var newEvent = new RequireLoadSceneEvent()
+            {
+                NextSceneName = sceneName,
+                ForceAppearance = isForce
+            };
+            RequireLoadScene(newEvent);
+        }
+
+        private async void RequireLoadScene(BaseEvent baseEvent)
+        {
+            var currEvent = baseEvent as RequireLoadSceneEvent;
+
+            if (currEvent.ForceAppearance)
+            {
+                _screenService.SetTopFrameVisible(true);
+            }
+            else
+            {
+                await _screenService.SoftTopFrameVisibleAsync(true, currEvent);
+            }
+
+            _sceneLoader.LoadScene(currEvent.NextSceneName);
+
+            if (currEvent.ForceAppearance)
+            {
+                _screenService.SetTopFrameVisible(false);
+            }
+            else
+            {
+                await _screenService.SoftTopFrameVisibleAsync(false, currEvent);
+            }
+
+            new SceneLoadedEvent().Fire();
+        }
+
+        private void GameBootInitialized(BaseEvent obj)
         {
             //Services.Get<HttpService>().GetTimeNow();
             //Services.Get<HttpService>().CreateUser();
@@ -63,31 +99,30 @@ namespace Systems
             //     //.OnError(OnTimeRequestError)
             //     .OnTimeOut(Action)
             //     .Fire();
-            
+
             new CheckUserExistRequiredEvent()
             {
                 UniqueDeviceId = _hardwareService.UniqueDeviceId
             }.Fire();
         }
 
-        private void OnRestartGame(BaseEvent obj)
+        private void ReloadScene(BaseEvent obj)
         {
             _sceneLoader.ReloadActiveScene();
         }
 
         private void ShowMainMenu(BaseEvent obj)
         {
-            _sceneLoader.LoadSceneAsync(SceneName.MainMenu).Forget();
+            RequireLoadScene(new RequireLoadSceneEvent() { NextSceneName = SceneName.MainMenu });
         }
 
         private void StartupSystemsInitialized(BaseEvent evnt)
         {
             Log.Info("Initialized");
-            if (_gameStateService.CurrentStateIs(GameState.CustomScene))
-            {
-                return;
-            }
-            _sceneLoader.LoadSceneAsync(SceneName.Intro).Forget();
+
+            if (_gameStateService.CurrentStateIs(GameState.CustomScene)) return;
+
+            new RequireLoadSceneEvent() { NextSceneName = SceneName.Intro }.Fire();
         }
     }
 }

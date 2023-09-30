@@ -24,7 +24,7 @@ namespace Game.Context
         private void OnDestroy()
         {
             Services.Dispose();
-            SystemsService.Dispose();
+            SystemsService.DisposeAllSystems();
         }
     }
 }

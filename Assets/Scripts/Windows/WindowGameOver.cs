@@ -46,7 +46,7 @@ namespace sm_application.UI.Window
         private async void Retry()
         {
             await Close();
-            new RestartGameEvent().Fire();
+            new ReloadSceneEvent().Fire();
         }
 
         public override async UniTask Show()

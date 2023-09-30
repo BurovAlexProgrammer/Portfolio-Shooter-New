@@ -13,7 +13,7 @@ namespace Systems
         public override void RemoveEventHandlers()
         {
             RemoveListener<GoToMainMenuEvent>();
-            RemoveListener<RestartGameEvent>();
+            RemoveListener<ReloadSceneEvent>();
             RemoveListener<PlayGameEvent>();
             base.RemoveEventHandlers();
         }
@@ -21,7 +21,7 @@ namespace Systems
         {
             base.AddEventHandlers();
             AddListener<GoToMainMenuEvent>(OnGoToMainMenu);
-            AddListener<RestartGameEvent>(OnRestartGame);
+            AddListener<ReloadSceneEvent>(OnRestartGame);
             AddListener<PlayGameEvent>(OnPlayGame);
         }
 

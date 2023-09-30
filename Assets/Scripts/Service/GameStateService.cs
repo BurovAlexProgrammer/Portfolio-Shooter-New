@@ -48,7 +48,7 @@ namespace sm_application.Service
         
         public void RestartGame()
         {
-            new RestartGameEvent().Fire();
+            new ReloadSceneEvent().Fire();
         }
 
         public void QuitGame()

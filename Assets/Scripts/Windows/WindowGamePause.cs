@@ -74,7 +74,7 @@ namespace sm_application.UI.Window
         private async void RestartGame()
         {
             await Close();
-            new RestartGameEvent().Fire();
+            new ReloadSceneEvent().Fire();
         }
         
         private async void ReturnGame()
