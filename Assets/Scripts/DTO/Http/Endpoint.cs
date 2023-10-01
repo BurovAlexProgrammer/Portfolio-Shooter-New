@@ -1,7 +1,7 @@
 using sm_application.Events;
 using sm_application.HttpData;
 
-namespace DTO.Http
+namespace Game.DTO.Http
 {
     public static class Endpoint
     {

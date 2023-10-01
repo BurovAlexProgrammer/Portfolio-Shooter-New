@@ -6,7 +6,7 @@ using sm_application.Wrappers;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace Systems
+namespace Game.Systems
 {
     public class ControlSystem : BaseSystem, IPointerClickHandler
     {
@@ -15,7 +15,7 @@ namespace Systems
         public override void Init()
         {
             base.Init();
-            _controlService = Services.Get<ControlService>();
+            _controlService = sm_application.Service.Services.Get<ControlService>();
             _controlService.Controls.Enable();
             _controlService.BindAction(BindActions.Started, OnPressInternalProfile);
         }

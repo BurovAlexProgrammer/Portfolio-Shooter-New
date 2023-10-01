@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
+using Game.Service;
 using sm_application.Events;
 using sm_application.Extension;
 using sm_application.Service;
-using sm_application.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;

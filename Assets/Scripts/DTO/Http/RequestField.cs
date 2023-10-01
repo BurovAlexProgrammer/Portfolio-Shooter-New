@@ -1,4 +1,4 @@
-namespace DTO.Http
+namespace Game.DTO.Http
 {
     public class RequestField
     {

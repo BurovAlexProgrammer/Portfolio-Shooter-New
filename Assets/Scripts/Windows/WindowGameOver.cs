@@ -1,15 +1,12 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Game.Service;
 using sm_application.Events;
 using sm_application.Service;
-using sm_application.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static sm_application.Extension.Common;
-using static Game.DTO.StatisticData.FormatType;
-using static Game.DTO.StatisticData.RecordName;
-using Common = sm_application.Extension.Common;
 
 namespace sm_application.UI.Window
 {
@@ -55,18 +52,18 @@ namespace sm_application.UI.Window
             _buttonPanel.localScale = _buttonPanel.localScale.SetAsNew(x: 0f);
             _buttonPanel.SetScale(x: 0f);
             const float duration = 0.8f;
-            var kills = statisticService.GetIntegerValue(KillMonsterCount, Session);
-            var surviveTime =
-                Mathf.RoundToInt(statisticService.GetFloatValue(LastGameSessionDuration, Session));
+            // var kills = statisticService.GetIntegerValue(KillMonsterCount, Session);
+            // var surviveTime =
+            //     Mathf.RoundToInt(statisticService.GetFloatValue(LastGameSessionDuration, Session));
             await base.Show();
             
-            await DOVirtual
-                .Int(0, surviveTime, duration, x => _surviveTimeText.text = x.Format(Common.StringFormat.Time))
-                .AsyncWaitForCompletion();
-            
-            await DOVirtual
-                .Int(0, kills, duration, x => _killsCountText.text = x.ToString())
-                .AsyncWaitForCompletion();
+            // await DOVirtual
+            //     .Int(0, surviveTime, duration, x => _surviveTimeText.text = x.Format(StringFormat.Time))
+            //     .AsyncWaitForCompletion();
+            //
+            // await DOVirtual
+            //     .Int(0, kills, duration, x => _killsCountText.text = x.ToString())
+            //     .AsyncWaitForCompletion();
 
             await DOVirtual
                 .Float(0, 1f, 0.5f, x => _buttonPanel.SetScale(x: x))

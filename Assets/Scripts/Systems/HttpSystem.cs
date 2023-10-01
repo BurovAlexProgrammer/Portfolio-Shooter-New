@@ -1,9 +1,10 @@
+using Game.Service;
 using JetBrains.Annotations;
 using sm_application.Events;
 using sm_application.Service;
 using sm_application.Systems;
 
-namespace Systems
+namespace Game.Systems
 {
     [UsedImplicitly]
     public class HttpSystem : BaseSystem
@@ -15,7 +16,7 @@ namespace Systems
 
         private void OnHttpRequest(BaseEvent baseEvent)
         {
-            Services.Get<HttpService>().ExecuteRequest(baseEvent as HttpRequestEvent);
+            sm_application.Service.Services.Get<HttpService>().ExecuteRequest(baseEvent as HttpRequestEvent);
         }
 
         public override void AddEventHandlers()

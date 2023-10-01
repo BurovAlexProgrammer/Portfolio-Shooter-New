@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DTO.Http;
+using Game.DTO.Http;
 using Duck.Http;
 using Duck.Http.Service.Unity;
 using Events;
@@ -9,11 +9,12 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using sm_application.Events;
 using sm_application.HttpData;
+using sm_application.Service;
 using sm_application.Wrappers;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace sm_application.Service
+namespace Game.Service
 {
     [UsedImplicitly]
     public class HttpService : IService

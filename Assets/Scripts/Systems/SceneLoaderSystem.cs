@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Events;
-using Game.DTO.Constants;
+using Game.Constants;
+using Game.Service;
 using JetBrains.Annotations;
 using sm_application.Events;
 using sm_application.Service;
 using sm_application.Systems;
-using sm_application.Wrappers;
 
-namespace Systems
+namespace Game.Systems
 {
     [UsedImplicitly]
     public class SceneLoaderSystem : BaseSystem
@@ -118,11 +117,11 @@ namespace Systems
 
         private void StartupSystemsInitialized(BaseEvent evnt)
         {
-            Log.Info("Initialized");
-
-            if (_gameStateService.CurrentStateIs(GameState.CustomScene)) return;
-
-            new RequireLoadSceneEvent() { NextSceneName = SceneName.Intro }.Fire();
+            // Log.Info("Initialized");
+            //
+            // if (_gameStateService.CurrentStateIs(GameState.CustomScene)) return;
+            //
+            // new RequireLoadSceneEvent() { NextSceneName = SceneName.Intro }.Fire();
         }
     }
 }

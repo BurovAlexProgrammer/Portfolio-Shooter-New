@@ -1,4 +1,4 @@
-﻿namespace Game.DTO.Constants
+﻿namespace Game.Constants
 {
     public enum GameState
     {

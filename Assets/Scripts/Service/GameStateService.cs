@@ -2,16 +2,17 @@ using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Game.DTO.Constants;
+using Game.Constants;
 using sm_application.Events;
 using sm_application.Extension;
+using sm_application.Service;
 using sm_application.Wrappers;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace sm_application.Service
+namespace Game.Service
 {
     public class GameStateService : IService
     {
@@ -19,11 +20,11 @@ namespace sm_application.Service
         public bool IsGameOver;
         private bool _isMenuMode;
         
-        private GameState _currentState;
+        private Constants.GameState _currentState;
         
         private SceneLoaderService _sceneLoader;
 
-        public GameState CurrentState => _currentState;
+        public Constants.GameState CurrentState => _currentState;
         public bool IsMenuMode => _isMenuMode;
         
 
@@ -33,7 +34,7 @@ namespace sm_application.Service
         }
         
 
-        public void SetState(GameState newState)
+        public void SetState(Constants.GameState newState)
         {
             if (_currentState == newState)
             {
@@ -74,12 +75,12 @@ namespace sm_application.Service
             IsGameOver = true;
         }
         
-        public bool CurrentStateIs(params GameState[] states)
+        public bool CurrentStateIs(params Constants.GameState[] states)
         {
             return states.Any(x => x == CurrentState);
         }
         
-        public bool CurrentStateIsNot(params GameState[] states)
+        public bool CurrentStateIsNot(params Constants.GameState[] states)
         {
             return states.All(x => x != CurrentState);
         }

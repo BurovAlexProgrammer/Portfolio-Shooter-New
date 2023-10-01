@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using static Game.DTO.StatisticData.RecordName;
 
 namespace Game.DTO
 {
@@ -73,15 +72,15 @@ namespace Game.DTO
         
         private static readonly Dictionary<RecordName, DataType> RecordTypes = new ()
         {
-            {GameSessionCount, DataType.Integer},
-            {LongestGameSessionDuration, DataType.Float},
-            {AverageGameSessionDuration, DataType.Float},
-            {FireCount, DataType.Integer},
-            {Movement, DataType.Float},
-            {KillMonsterCount, DataType.Integer},
-            {LastGameSessionDuration, DataType.Float},
-            {Scores, DataType.Integer},
-            {MaxScores, DataType.Integer},
+            // {GameSessionCount, DataType.Integer},
+            // {LongestGameSessionDuration, DataType.Float},
+            // {AverageGameSessionDuration, DataType.Float},
+            // {FireCount, DataType.Integer},
+            // {Movement, DataType.Float},
+            // {KillMonsterCount, DataType.Integer},
+            // {LastGameSessionDuration, DataType.Float},
+            // {Scores, DataType.Integer},
+            // {MaxScores, DataType.Integer},
         };
     }
 }

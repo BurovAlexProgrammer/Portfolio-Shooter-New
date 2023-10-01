@@ -3,7 +3,7 @@ using sm_application.Events.Audio;
 using sm_application.Service;
 using sm_application.Systems;
 
-namespace Systems
+namespace Game.Systems
 {
     public class AudioSystem : BaseSystem
     {
@@ -11,7 +11,7 @@ namespace Systems
         public override void Init()
         {
             base.Init();
-            _audioService = Services.Get<AudioService>();
+            _audioService = sm_application.Service.Services.Get<AudioService>();
         }
 
         public override void RemoveEventHandlers()

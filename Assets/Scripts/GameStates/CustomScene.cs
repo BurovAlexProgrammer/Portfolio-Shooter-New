@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Game.Service;
 using sm_application.Service;
 
 namespace sm_application.Game.GameStates

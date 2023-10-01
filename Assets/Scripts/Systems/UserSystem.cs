@@ -1,16 +1,15 @@
 using System.Collections.Generic;
-using DTO.Http;
 using Events;
-using Events.HttpResponseEvents;
 using Game.DTO;
+using Game.DTO.Http;
+using Game.Service;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using sm_application.Events;
-using sm_application.Service;
 using sm_application.Systems;
 using UnityEngine.Networking;
 
-namespace Systems
+namespace Game.Systems
 {
     [UsedImplicitly]
     public class UserSystem : BaseSystem
@@ -20,7 +19,7 @@ namespace Systems
         public override void Init()
         {
             base.Init();
-            _userService = Services.Get<UserService>();
+            _userService = sm_application.Service.Services.Get<UserService>();
         }
 
         public override void AddEventHandlers()

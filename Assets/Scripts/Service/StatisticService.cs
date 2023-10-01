@@ -2,10 +2,12 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using Game;
 using Game.DTO;
+using sm_application.Service;
 using UnityEngine;
 
-namespace sm_application.Service
+namespace Game.Service
 {
     public class StatisticService : IService, IDisposable
     {

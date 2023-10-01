@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
-using Game.DTO.Constants;
+using gameState = Game.Constants.GameState;
+using Game.Service;
 using sm_application.Events;
 using sm_application.Service;
 using sm_application.Systems;
@@ -7,7 +8,7 @@ using sm_application.Wrappers;
 using sm_application.Extension;
 using UnityEngine.InputSystem;
 
-namespace Systems
+namespace Game.Systems
 {
     [UsedImplicitly]
     public class GameStateSystem : BaseSystem
@@ -20,16 +21,16 @@ namespace Systems
         public override void Init()
         {
             base.Init();
-            _gameStateService = Services.Get<GameStateService>();
-            _controlService = Services.Get<ControlService>();
-            _sceneLoader = Services.Get<SceneLoaderService>();
+            _gameStateService = sm_application.Service.Services.Get<GameStateService>();
+            _controlService = sm_application.Service.Services.Get<ControlService>();
+            _sceneLoader = sm_application.Service.Services.Get<SceneLoaderService>();
             _controlService.Controls.Player.Pause.BindAction(BindActions.Started, PauseGame);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            Services.Get<ControlService>().Controls.Player.Pause.UnbindAction(BindActions.Started, PauseGame);
+            sm_application.Service.Services.Get<ControlService>().Controls.Player.Pause.UnbindAction(BindActions.Started, PauseGame);
         }
 
         public override void RemoveEventHandlers()
@@ -64,7 +65,7 @@ namespace Systems
         private void GoToMainMenu(BaseEvent obj)
         {
             _gameStateService.RestoreTimeSpeed();
-            _gameStateService.SetState(GameState.MainMenu);
+            _gameStateService.SetState(gameState.MainMenu);
         }
 
         private void OnGameRestart(BaseEvent baseEvent)
@@ -80,11 +81,11 @@ namespace Systems
 
         private async void StartupSystemsInitialized(BaseEvent baseEvent)
         {
-            if (_gameStateService.CurrentStateIs(GameState.CustomScene))
+            if (_gameStateService.CurrentStateIs(gameState.CustomScene))
             {
                 return;
             }
-            _gameStateService.SetState(GameState.Intro);
+            _gameStateService.SetState(gameState.Intro);
             // await 3f.WaitInSeconds();
             await 0.3f.WaitInSeconds();
             new IntroEndEvent().Fire();
@@ -93,7 +94,7 @@ namespace Systems
         public async void PauseGame(InputAction.CallbackContext ctx)
         {
             if (_transaction) return;
-            if (_gameStateService.CurrentStateIsNot(GameState.PlayGame, GameState.CustomScene)) return;
+            if (_gameStateService.CurrentStateIsNot(gameState.PlayGame, gameState.CustomScene)) return;
 
             Log.Info("Game paused to menu.");
 
@@ -112,7 +113,7 @@ namespace Systems
         {
             if (_transaction) return;
             if (_gameStateService.IsGameOver) return;
-            if (_gameStateService.CurrentStateIsNot(GameState.PlayGame, GameState.CustomScene)) return;
+            if (_gameStateService.CurrentStateIsNot(gameState.PlayGame, gameState.CustomScene)) return;
 
             Log.Info("Game returned from pause.");
             

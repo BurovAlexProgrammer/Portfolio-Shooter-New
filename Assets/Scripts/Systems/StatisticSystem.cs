@@ -1,9 +1,9 @@
-﻿using JetBrains.Annotations;
+﻿using Game.Service;
+using JetBrains.Annotations;
 using sm_application.Events;
-using sm_application.Service;
 using sm_application.Systems;
 
-namespace Systems
+namespace Game.Systems
 {
     [UsedImplicitly]
     public class StatisticSystem : BaseSystem
