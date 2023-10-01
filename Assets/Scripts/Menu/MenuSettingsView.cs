@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using sm_application.Localizations;
 using sm_application.Service;
@@ -16,7 +17,6 @@ namespace sm_application.Menu
         [SerializeField] private Button _buttonReset;
         [SerializeField] private VideoSettingViews _videoSettingViews;
         [SerializeField] private GameSettingViews _gameSettingViews;
-        [SerializeField] private TextMeshProUGUI _textRestartRequire;
 
         private SettingsService _settingsService;
         private LocalizationService _localizationService;
@@ -41,11 +41,10 @@ namespace sm_application.Menu
             _videoSettingViews.FilmGrainToggle.onValueChanged.AddListener(value => videoSettings.PostProcessFilmGrain = value);
             _gameSettingViews.CurrentLanguage.onValueChanged.AddListener(value =>
             {
-                _textRestartRequire.gameObject.SetActive(true);
                 _settingsService.GameSettings.CurrentLocale = (Locales)value;
             });
             
-            LoadLocalizationOptions().Forget();
+            LoadLocalizationOptions();
         }
         
         private void OnDestroy()
@@ -61,11 +60,10 @@ namespace sm_application.Menu
             _gameSettingViews.CurrentLanguage.onValueChanged.RemoveAllListeners();
         }
         
-        private async UniTask LoadLocalizationOptions()
+        private void LoadLocalizationOptions()
         {
-            await UniTask.Yield();
-            var localizations = await _localizationService.GetLocalizationsAsync();
-            //_gameSettingViews.CurrentLanguage.options = localizations.Values.Select(x => new TMP_Dropdown.OptionData(x.Info.FullName)).ToList();
+            var localizations = _localizationService.Localizations;
+            _gameSettingViews.CurrentLanguage.options = localizations.Values.Select(x => new TMP_Dropdown.OptionData(x.Info.FullName)).ToList();
         }
 
         private void Init()

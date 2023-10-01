@@ -1,0 +1,42 @@
+en_EN
+{"name":"en-EN","fullName":"English"}
+
+VideoSettings;;Video Settings;Video Settings;
+NewGame;;New Game;New Game;
+QuitGame;;Quit;Quit;
+Settings;;Settings;Settings;
+VideoSetting.AntiAliasing;;Anti-Aliasing;Anti-Aliasing;
+VideoSetting.Depth;;Depth of Field;Depth of Field;
+VideoSetting.AmbientOcclusion;;Ambient Occlusion;Ambient Occlusion;
+VideoSetting.Bloom;;Bloom;Bloom;
+Button.Reset;;Reset;Reset;
+VideoSetting.Vignette;;Vignette;Vignette;
+Button.Apply;;Apply;Apply;
+Button.Back;;Back;Back;
+WindowHeader.QuitGame;;Quit Game;Quit Game;
+Sure?;;You Sure?;You Sure?;
+Yes;;Yes;Yes;
+No;;No;No;
+GameSettings;;Game Settings;Game Settings;
+Language;;Language;Language;
+ReturnGame;;Return Game;Return Game;
+GamePause;;Game Pause;Game Pause;
+Music;;Music;Music;
+AboutDemo;;About Demo;About Demo;
+Sounds;;Sounds;Sounds;
+Kills;;Kills;Kills;
+Scores;;Scores;Scores;
+Restart;;Restart;Restart;
+MainMenu;;Main Menu;Main Menu;
+GameOver;;Game Over;Game Over;
+Retry;;Retry;Retry;
+SurviveTime;;Survive Time;Survive Time;
+RestartGameRequire;;Restart Game Require;Restart Game Require;
+Button.Save;;Save;Save;
+TotalMovement;;Total Movement;Total Movement;
+AverageSurviveTime;;Average Survive Time;Average Survive Time;
+LongestSurviveTime;;Longest Survive Time;Longest Survive Time;
+KillsCommon;;Total Kills;Total Kills;
+Statistic;;Statistic;Statistic;
+TotalShootCount;;Total Shoot Count;Total Shoot Count;
+VideoSetting.FilmGrain;;Film Grain;Film Grain;
