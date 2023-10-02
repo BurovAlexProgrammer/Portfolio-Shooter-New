@@ -27,7 +27,7 @@ namespace Game.Systems
 
         private void OnPlayGame(BaseEvent obj)
         {
-            _statisticService.ResetSessionRecords();
+            _statisticService.ResetSession();
         }
 
         private void OnRestartGame(BaseEvent obj)

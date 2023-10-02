@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using Cysharp.Threading.Tasks;
-using Newtonsoft.Json;
-using Game;
 using Game.DTO;
+using Newtonsoft.Json;
 using sm_application.Service;
 using UnityEngine;
 
@@ -11,106 +10,85 @@ namespace Game.Service
 {
     public class StatisticService : IService, IDisposable
     {
-        public Action<StatisticData.RecordName, string> RecordChanged; 
-        
-        private StatisticData _statisticData;
+        public Action<string, string> RecordChanged;
+
+        private Dictionary<string, object> _cachedSessionRecords;
+        private Dictionary<string, string> _savedSessionRecords;
         private string _storedFolder;
         private string _storedFolderPath;
 
         public void Construct()
         {
-            _statisticData = new StatisticData();
+            _cachedSessionRecords = new Dictionary<string, object>();
+            _savedSessionRecords = new Dictionary<string, string>();
             _storedFolder ??= Application.dataPath + "/StoredData/";
             _storedFolderPath = _storedFolder + "Statistic.data";
             LoadFromFile();
-            TimerExecuting();
         }
 
         public void Dispose()
         {
+            SaveToFile();
+            ResetSession();
             GC.SuppressFinalize(this);
         }
 
-        public string GetRecord(StatisticData.RecordName recordName)
+        ~StatisticService()
         {
-            return _statisticData.CommonRecords[recordName];
+            SaveToFile();
+            ResetSession();
         }
 
-        public void AddValueToRecord(StatisticData.RecordName recordName, int value)
+        public string GetValue(string recordName)
+        {
+            return _savedSessionRecords[recordName];
+        }
+
+        public void AddValue(string recordName, int value)
         {
             if (value == 0) return;
-
-            var commonRecordValue = int.Parse(_statisticData.CommonRecords[recordName]);
-            _statisticData.CommonRecords[recordName] = (commonRecordValue + value).ToString();
-            var sessionRecordValue = int.Parse(_statisticData.SessionRecords[recordName]);
-            _statisticData.SessionRecords[recordName] = (sessionRecordValue + value).ToString();
-            RecordChanged?.Invoke(recordName, _statisticData.SessionRecords[recordName]);
-        }
-
-        public void AddValueToRecord(StatisticData.RecordName recordName, float value)
-        {
-            if (value == 0f) return;
-
-            var commonRecordValue = float.Parse(_statisticData.CommonRecords[recordName]);
-            _statisticData.CommonRecords[recordName] = (commonRecordValue + value).ToString();
-            var sessionRecordValue = float.Parse(_statisticData.SessionRecords[recordName]);
-            _statisticData.SessionRecords[recordName] = (sessionRecordValue + value).ToString();
-            RecordChanged?.Invoke(recordName, _statisticData.SessionRecords[recordName]);
-        }
-
-        public float GetFloatValue(StatisticData.RecordName recordName, StatisticData.FormatType formatType = StatisticData.FormatType.Common)
-        {
-            return formatType switch
-            {
-                StatisticData.FormatType.Common => float.Parse(_statisticData.CommonRecords[recordName]),
-                StatisticData.FormatType.Session => float.Parse(_statisticData.SessionRecords[recordName]),
-                _ => throw new ArgumentOutOfRangeException(nameof(formatType), formatType, null)
-            };
+            
+            var cachedValue = (int)_cachedSessionRecords[recordName];
+            _cachedSessionRecords[recordName] = cachedValue + value;
+            RecordChanged?.Invoke(recordName, _cachedSessionRecords[recordName].ToString());
         }
         
-        public int GetIntegerValue(StatisticData.RecordName recordName, StatisticData.FormatType formatType = StatisticData.FormatType.Common)
+        public void AddValue(string recordName, float value)
         {
-            return formatType switch
-            {
-                StatisticData.FormatType.Common => int.Parse(_statisticData.CommonRecords[recordName]),
-                StatisticData.FormatType.Session => int.Parse(_statisticData.SessionRecords[recordName]),
-                _ => throw new ArgumentOutOfRangeException(nameof(formatType), formatType, null)
-            };
+            if (value == 0) return;
+            
+            var cachedValue = (float)_cachedSessionRecords[recordName];
+            _cachedSessionRecords[recordName] = cachedValue + value;
+            RecordChanged?.Invoke(recordName, _cachedSessionRecords[recordName].ToString());
         }
 
-        public void ResetSessionRecords()
+        public float GetFloat(string recordName)
         {
-            _statisticData.ResetSessionData();
-            
-            foreach (var pair in _statisticData.SessionRecords)
-            {
-                RecordChanged?.Invoke(pair.Key, pair.Value);
-            }
+            return float.Parse(_savedSessionRecords[recordName]);
+        }
+        
+        public int GetInteger(string recordName)
+        {
+            return int.Parse(_savedSessionRecords[recordName]);
+        }
+        
+        public void ResetSession()
+        {
+            _cachedSessionRecords.Clear();
         }
 
         public void SaveToFile()
         {
-            var data = JsonConvert.SerializeObject(_statisticData);
+            var data = JsonConvert.SerializeObject(_savedSessionRecords);
             File.WriteAllText(_storedFolderPath, data);
-        }
-        
-        public void CalculateSessionDuration()
-        {
-            var sessionDuration = GetFloatValue(StatisticData.RecordName.LastGameSessionDuration, StatisticData.FormatType.Session);
-            var longestSession = GetFloatValue(StatisticData.RecordName.LongestGameSessionDuration);
-            var averageSession = GetFloatValue(StatisticData.RecordName.AverageGameSessionDuration);
-            longestSession = Mathf.Max(longestSession, sessionDuration);
-            averageSession = averageSession == 0 ? sessionDuration : (averageSession * 3 + sessionDuration) / 4f;
-            SetRecord(StatisticData.RecordName.LongestGameSessionDuration, longestSession.ToString());
-            SetRecord(StatisticData.RecordName.AverageGameSessionDuration, averageSession.ToString());
         }
 
         public void SetScores(int value)
         {
-            SetRecord(StatisticData.RecordName.Scores, value.ToString());
-            var maxScores = GetIntegerValue(StatisticData.RecordName.MaxScores);
+            SetRecord(StatisticData.Scores, value.ToString());
+            var maxScores = GetInteger(StatisticData.MaxScores);
             maxScores = Mathf.Max(maxScores, maxScores);
-            SetRecord(StatisticData.RecordName.MaxScores, maxScores.ToString());
+            SetRecord(StatisticData.MaxScores, maxScores.ToString());
         }
 
         public void EndGameDataSaving()
@@ -118,34 +96,13 @@ namespace Game.Service
             CalculateSessionDuration();
             SaveToFile();
         }
+
+        private void SetRecord(string recordName, string value)
+        {
+            _savedSessionRecords[recordName] = value;
+            RecordChanged?.Invoke(recordName, _savedSessionRecords[recordName]);
+        }
         
-        private void SetRecord(StatisticData.RecordName recordName, string value)
-        {
-            _statisticData.CommonRecords[recordName] = value;
-            _statisticData.SessionRecords[recordName] = value;
-            RecordChanged?.Invoke(recordName, _statisticData.SessionRecords[recordName]);
-        }
-
-        private async void TimerExecuting()
-        {
-            var delta = 0f;
-
-            while (this != null)
-            {
-                await UniTask.NextFrame();
-                delta += Time.deltaTime;
-
-                if (delta < 1f) continue;
-
-                // if (_gameManager.ActiveStateEquals<GameStates.PlayNewGame>())
-                {
-                    AddValueToRecord(StatisticData.RecordName.LastGameSessionDuration, delta);
-                }
-
-                delta = 0f;
-            }
-        }
-
         private void LoadFromFile()
         {
             Directory.CreateDirectory(_storedFolder);
@@ -153,12 +110,23 @@ namespace Game.Service
             if (!File.Exists(_storedFolderPath))
             {
                 Debug.LogWarning($"Stored file '{_storedFolderPath}' not found. Created empty statistic file.");
-                var emptyRecords = JsonConvert.SerializeObject(_statisticData);
+                var emptyRecords = JsonConvert.SerializeObject(_savedSessionRecords);
                 File.WriteAllText(_storedFolderPath, emptyRecords);
             }
 
             var json = File.ReadAllText(_storedFolderPath);
-            _statisticData = JsonConvert.DeserializeObject<StatisticData>(json);
+            _savedSessionRecords = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        }
+        
+        private void CalculateSessionDuration()
+        {
+            var sessionDuration = GetFloat(StatisticData.LastGameSessionDuration);
+            var longestSession = GetFloat(StatisticData.LongestGameSessionDuration);
+            var averageSession = GetFloat(StatisticData.AverageGameSessionDuration);
+            longestSession = Mathf.Max(longestSession, sessionDuration);
+            averageSession = averageSession == 0 ? sessionDuration : (averageSession * 3 + sessionDuration) / 4f;
+            SetRecord(StatisticData.LongestGameSessionDuration, longestSession.ToString());
+            SetRecord(StatisticData.AverageGameSessionDuration, averageSession.ToString());
         }
     }
 }

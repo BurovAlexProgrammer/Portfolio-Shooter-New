@@ -53,7 +53,7 @@ namespace Game
             if (_health != null)
             {
                 _health.Init(_data.Health, _data.Health);
-                _health.OnDead += OnDead;
+                _health.Dead += Dead;
             }
 
             if (_attacker != null)
@@ -69,11 +69,11 @@ namespace Game
             }
         }
 
-        private void OnDead()
+        private void Dead()
         {
             if (_brainOwner != null && _attacker != null)
             {
-                _statisticService.AddValueToRecord(StatisticData.RecordName.KillMonsterCount, 1);
+                _statisticService.AddValue(StatisticData.KillMonsterCount, 1);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Game
 
             if (_health != null)
             {
-                _health.OnDead -= OnDead;
+                _health.Dead -= Dead;
             }
         }
 

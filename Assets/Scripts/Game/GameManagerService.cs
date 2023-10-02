@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 namespace Game
 {
-    public class GameManagerService : IService, IConstruct
+    public class GameManagerService : IService
     {
         private GameStateMachine _gameStateMachine;
         private bool _isGamePause;
@@ -74,7 +74,7 @@ namespace Game
             // _controlService.LockCursor();
             _controlService.Controls.Player.Enable();
             _controlService.Controls.Menu.Disable();
-            _statisticService.ResetSessionRecords();
+            _statisticService.ResetSession();
         }
 
         public async void PauseGame(InputAction.CallbackContext ctx)

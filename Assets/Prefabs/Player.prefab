@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4623806979323550822}
   - component: {fileID: 5707287164797595856}
-  - component: {fileID: 9123952313604711187}
+  - component: {fileID: 213281977711941260}
   - component: {fileID: 2868835938778812559}
   - component: {fileID: 8995502875322642257}
   m_Layer: 6
@@ -171,7 +171,7 @@ MonoBehaviour:
   _canShoot: 0
   _useGravity: 0
   _startPhrase: {fileID: 0}
---- !u!114 &9123952313604711187
+--- !u!114 &213281977711941260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,16 +180,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5518685102165091296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae291ea395d47478df85c59519fd9b9, type: 3}
+  m_Script: {fileID: 11500000, guid: f0482097a5234bcf873ba01d528db51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxValue: 100
+  _maxValue: 0
   _currentValue: 0
-  _audioSource: {fileID: 0}
-  _gameOverAudioEvent: {fileID: 11400000, guid: 852c3d9c0b932d24ea35b66e5f137b5b,
-    type: 2}
-  _takeDamageAudioEvent: {fileID: 11400000, guid: 4c7b9afcffa3a0f48959112345e764ed,
-    type: 2}
+  _destructionPrefab: {fileID: 0}
 --- !u!143 &2868835938778812559
 CharacterController:
   m_ObjectHideFlags: 0

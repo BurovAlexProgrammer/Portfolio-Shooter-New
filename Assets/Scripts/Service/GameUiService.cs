@@ -30,7 +30,7 @@ namespace Game.Service
         {
             _gameManager.SwitchPause += OnSwitchGamePause;
             _gameManager.GameOver += OnGameOver;
-            _player.Health.OnChanged += OnPlayerHealthChanged;
+            _player.Health.TakenDamage += OnPlayerHealthChanged;
             _statisticService.RecordChanged += OnStaticRecordChanged;
             _healthBarView.Init(_player.Health.CurrentValue, _player.Health.MaxValue);
             _windowGamePause.DialogSwitched += OnDialogSwitched;
@@ -41,7 +41,7 @@ namespace Game.Service
         {
             _gameManager.SwitchPause -= OnSwitchGamePause;
             _gameManager.GameOver -= OnGameOver;
-            _player.Health.OnChanged -= OnPlayerHealthChanged;
+            _player.Health.TakenDamage -= OnPlayerHealthChanged;
             _statisticService.RecordChanged -= OnStaticRecordChanged;
             _windowGamePause.DialogSwitched -= OnDialogSwitched;
             _windowGameOver.DialogSwitched -= OnDialogSwitched;
@@ -76,14 +76,14 @@ namespace Game.Service
             _healthBarView.SetValue(playerHealth.CurrentValue);
         }
 
-        private void OnStaticRecordChanged(StatisticData.RecordName recordName, string value)
+        private void OnStaticRecordChanged(string recordName, string value)
         {
             switch (recordName)
             {
-                case StatisticData.RecordName.KillMonsterCount:
+                case StatisticData.KillMonsterCount:
                     _killCountText.text = value;
                     break;
-                case StatisticData.RecordName.Scores:
+                case StatisticData.Scores:
                     _scoreCountText.text = value;
                     break;
             }

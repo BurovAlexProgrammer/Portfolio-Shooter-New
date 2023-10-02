@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(PlayerHealth))]
+    [RequireComponent(typeof(HealthBase))]
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(AudioSource))]
     public sealed class Player : MonoBehaviour, IPlayer
@@ -45,13 +45,14 @@ namespace Game
 
         private void Awake()
         {
-            _statisticService = Services.Get<StatisticService>();
+            // _statisticService = Services.Get<StatisticService>();
             _controlService = Services.Get<ControlService>();
             _settingsService = Services.Get<SettingsService>();
             _health = GetComponent<HealthBase>();
             _characterController = GetComponent<CharacterController>();
             _audioSource = GetComponent<AudioSource>();
             _playerControl = _controlService.Controls.Player;
+            _controlService.SetPlayMode();
         }
 
         private void Start()
@@ -118,7 +119,7 @@ namespace Game
 
             if (_characterController.velocity != Vector3.zero)
             {
-                _statisticService.AddValueToRecord(StatisticData.RecordName.Movement,
+                _statisticService.AddValue(StatisticData.Movement,
                     _characterController.velocity.magnitude * Time.fixedDeltaTime);
             }
         }
@@ -139,7 +140,7 @@ namespace Game
         {
             if (_gun.TryShoot())
             {
-                _statisticService.AddValueToRecord(StatisticData.RecordName.FireCount, 1);
+                _statisticService.AddValue(StatisticData.FireCount, 1);
             }
         }
     }
