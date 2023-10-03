@@ -76,15 +76,15 @@ namespace Game.Service
             _healthBarView.SetValue(playerHealth.CurrentValue);
         }
 
-        private void OnStaticRecordChanged(string recordName, string value)
+        private void OnStaticRecordChanged(string recordName, object value)
         {
             switch (recordName)
             {
                 case StatisticData.KillMonsterCount:
-                    _killCountText.text = value;
+                    _killCountText.text = value.ToString();
                     break;
                 case StatisticData.Scores:
-                    _scoreCountText.text = value;
+                    _scoreCountText.text = value.ToString();
                     break;
             }
         }

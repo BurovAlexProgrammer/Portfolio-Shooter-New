@@ -27,7 +27,6 @@ namespace Game
         private StatisticService _statisticService;
         private ControlService _controlService;
         private SettingsService _settingsService;
-
         private CharacterController _characterController;
         private AudioSource _audioSource;
         private HealthBase _health;
@@ -45,7 +44,7 @@ namespace Game
 
         private void Awake()
         {
-            // _statisticService = Services.Get<StatisticService>();
+            _statisticService = Services.Get<StatisticService>();
             _controlService = Services.Get<ControlService>();
             _settingsService = Services.Get<SettingsService>();
             _health = GetComponent<HealthBase>();
