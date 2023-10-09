@@ -74,6 +74,15 @@ crashlytics-build.properties
 #Temp
 /[Aa]ssets/[Tt]emp/
 
-.idea
+/.idea/
+/.idea/**/workspace.xml
 .idea/.idea.Common/.idea/projectSettingsUpdater.xml
-.idea/.idea.Common/.idea/workspace.xml
+/.idea/.idea.Common/.idea/workspace.xml
+
+/[Aa]ssets/UMotionEditor/
+/[Aa]ssets/UMotionExamples/
+/[Aa]ssets/Infima Games/
+/UMotionData/
+Infima Games.meta
+UMotionEditor.meta
+UMotionExamples.meta
